@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puzzli - Transporte Privado Premium</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">Puzzli</div>
+                <div class="nav-links">
+                    <a href="#home">Início</a>
+                    <a href="#services">Serviços</a>
+                    <a href="#contact">Contactos</a>
+                    <button class="btn-primary" onclick="showBookingModal()">Reservar Viagem</button>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Vá para qualquer lugar com Puzzli</h1>
+                <p>Transporte privado premium em parceria com Uber e Bolt. Conforto, segurança e pontualidade.</p>
+                <button class="btn-hero" onclick="showBookingModal()">Reservar Agora</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2>Nossos Serviços</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🚗</div>
+                    <h3>Viagens Urbanas</h3>
+                    <p>Deslocações rápidas e confortáveis pela cidade</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">✈️</div>
+                    <h3>Aeroporto</h3>
+                    <p>Transfers para aeroportos com pontualidade garantida</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Viagens Programadas</h3>
+                    <p>Agende suas viagens com antecedência</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⭐</div>
+                    <h3>Serviço Premium</h3>
+                    <p>Veículos de luxo para ocasiões especiais</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contactos</h2>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon">📞</div>
+                    <h3>Telefone</h3>
+                    <p>+351 912 345 678</p>
+                    <p>+351 913 456 789</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <p>info@puzzli.pt</p>
+                    <p>reservas@puzzli.pt</p>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Localização</h3>
+                    <p>Lisboa, Portugal</p>
+                    <p>Disponível 24/7</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Puzzli. Todos os direitos reservados.</p>
+            <p>Parceiro oficial Uber & Bolt</p>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBookingModal()">&times;</span>
+            <h2>Reservar Viagem</h2>
+            
+            <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                <div class="form-group">
+                    <label for="fromLocation">De onde?</label>
+                    <input type="text" id="fromLocation" required placeholder="Endereço de partida">
+                </div>
+
+                <div class="form-group">
+                    <label for="toLocation">Para onde?</label>
+                    <input type="text" id="toLocation" required placeholder="Endereço de destino">
+                </div>
+
+                <div class="form-group">
+                    <label for="pickupDate">Data</label>
+                    <input type="date" id="pickupDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pickupTime">Hora</label>
+                    <input type="time" id="pickupTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceType">Tipo de Serviço</label>
+                    <select id="serviceType" required>
+                        <option value="standard">Standard - €1.50/km</option>
+                        <option value="comfort">Comfort - €2.00/km</option>
+                        <option value="premium">Premium - €3.00/km</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="passengers">Número de Passageiros</label>
+                    <input type="number" id="passengers" min="1" max="6" value="1" required>
+                </div>
+
+                <button type="submit" class="btn-primary btn-full">Continuar para Resumo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSummaryModal()">&times;</span>
+            <h2>Resumo da Viagem</h2>
+            
+            <div id="summaryContent" class="summary-content">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <div class="form-group">
+                <label for="userEmail">Email para confirmação</label>
+                <input type="email" id="userEmail" required placeholder="seu@email.com">
+            </div>
+
+            <button onclick="requestOTP()" class="btn-primary btn-full">Confirmar e Enviar OTP</button>
+        </div>
+    </div>
+
+    <!-- OTP Modal -->
+    <div id="otpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOTPModal()">&times;</span>
+            <h2>Verificação de Email</h2>
+            
+            <p class="otp-message">Enviámos um código de 6 dígitos para <strong id="otpEmail"></strong></p>
+            
+            <div class="form-group">
+                <label for="otpCode">Código OTP</label>
+                <input type="text" id="otpCode" maxlength="6" pattern="[0-9]{6}" required placeholder="000000">
+            </div>
+
+            <button onclick="verifyOTP()" class="btn-primary btn-full">Verificar e Confirmar Reserva</button>
+            <button onclick="requestOTP()" class="btn-secondary btn-full">Reenviar Código</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success">
+            <span class="close" onclick="closeSuccessModal()">&times;</span>
+            <div class="success-icon">✓</div>
+            <h2>Reserva Confirmada!</h2>
+            <p>A sua viagem foi reservada com sucesso.</p>
+            <p>Receberá um email de confirmação em breve.</p>
+            <p class="booking-reference">Referência: <strong id="bookingRef"></strong></p>
+            <button onclick="closeSuccessModal()" class="btn-primary btn-full">Fechar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
