@@ -1,4 +1,13 @@
 /* Reset and Base Styles */
+:root {
+    --primary-black: #000000;
+    --primary-green: #00D084;
+    --text-dark: #1a1a1a;
+    --text-light: #666666;
+    --bg-light: #f8f8f8;
+    --white: #ffffff;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,7 +17,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: var(--text-dark);
     overflow-x: hidden;
 }
 
@@ -23,8 +32,8 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: #000;
-    color: #fff;
+    background: var(--primary-black);
+    color: var(--white);
     padding: 1rem 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -40,6 +49,7 @@ body {
     font-size: 1.8rem;
     font-weight: bold;
     letter-spacing: -0.5px;
+    color: var(--white);
 }
 
 .nav-links {
@@ -49,13 +59,13 @@ body {
 }
 
 .nav-links a {
-    color: #fff;
+    color: var(--white);
     text-decoration: none;
-    transition: opacity 0.3s;
+    transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    opacity: 0.8;
+    color: var(--primary-green);
 }
 
 .mobile-menu-btn {
@@ -76,8 +86,8 @@ body {
 
 /* Buttons */
 .btn-primary {
-    background: #fff;
-    color: #000;
+    background: var(--primary-green);
+    color: var(--primary-black);
     padding: 12px 24px;
     border: none;
     border-radius: 8px;
@@ -88,15 +98,16 @@ body {
 }
 
 .btn-primary:hover {
-    background: #f0f0f0;
+    background: #00bb73;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 208, 132, 0.3);
 }
 
 .btn-secondary {
     background: transparent;
-    color: #000;
+    color: var(--primary-black);
     padding: 12px 24px;
-    border: 2px solid #000;
+    border: 2px solid var(--primary-black);
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
@@ -106,13 +117,13 @@ body {
 }
 
 .btn-secondary:hover {
-    background: #000;
-    color: #fff;
+    background: var(--primary-black);
+    color: var(--primary-green);
 }
 
 .btn-hero {
-    background: #000;
-    color: #fff;
+    background: var(--primary-green);
+    color: var(--primary-black);
     padding: 16px 48px;
     border: none;
     border-radius: 8px;
@@ -124,8 +135,9 @@ body {
 }
 
 .btn-hero:hover {
-    background: #333;
+    background: #00bb73;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 208, 132, 0.4);
 }
 
 .btn-full {
@@ -134,8 +146,8 @@ body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, #000 0%, #333 100%);
-    color: #fff;
+    background: linear-gradient(135deg, var(--primary-black) 0%, #1a1a1a 100%);
+    color: var(--white);
     padding: 150px 0 100px;
     margin-top: 60px;
     min-height: 70vh;
@@ -161,7 +173,7 @@ body {
 /* Services Section */
 .services {
     padding: 80px 0;
-    background: #f8f8f8;
+    background: var(--bg-light);
 }
 
 .services h2 {
@@ -177,22 +189,38 @@ body {
 }
 
 .service-card {
-    background: #fff;
+    background: var(--white);
     padding: 2rem;
     border-radius: 12px;
     text-align: center;
     transition: all 0.3s;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 2px solid transparent;
 }
 
 .service-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-color: var(--primary-green);
 }
 
 .service-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1rem;
+    color: var(--primary-green);
+}
+
+.service-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--primary-green);
+    transition: all 0.3s;
+}
+
+.service-card:hover .service-icon svg {
+    stroke: var(--primary-black);
+    transform: scale(1.1);
 }
 
 .service-card h3 {
@@ -203,7 +231,7 @@ body {
 /* Contact Section */
 .contact {
     padding: 80px 0;
-    background: #fff;
+    background: var(--white);
 }
 
 .contact h2 {
@@ -224,8 +252,16 @@ body {
 }
 
 .contact-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1rem;
+    color: var(--primary-green);
+}
+
+.contact-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--primary-green);
 }
 
 .contact-card h3 {
@@ -241,8 +277,8 @@ body {
 
 /* Footer */
 .footer {
-    background: #000;
-    color: #fff;
+    background: var(--primary-black);
+    color: var(--white);
     text-align: center;
     padding: 2rem 0;
 }
@@ -271,7 +307,7 @@ body {
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: var(--white);
     margin: 5% auto;
     padding: 40px;
     border-radius: 12px;
@@ -304,24 +340,81 @@ body {
 }
 
 .close:hover {
-    color: #000;
+    color: var(--primary-green);
 }
 
 .modal-content h2 {
     margin-bottom: 1.5rem;
-    color: #000;
+    color: var(--primary-black);
 }
 
 /* Form Styles */
+.vehicle-info {
+    background: linear-gradient(135deg, var(--primary-black) 0%, #1a1a1a 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.vehicle-badge {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--white);
+}
+
+.vehicle-badge svg {
+    width: 48px;
+    height: 48px;
+    stroke: var(--primary-green);
+    flex-shrink: 0;
+}
+
+.vehicle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.vehicle-name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary-green);
+}
+
+.vehicle-type {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.form-row:has(.form-group + .form-group) {
+    grid-template-columns: 1fr 1fr;
+}
+
 .form-group {
     margin-bottom: 1.5rem;
 }
 
 .form-group label {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #333;
+    color: var(--text-dark);
+}
+
+.input-icon {
+    width: 16px;
+    height: 16px;
+    stroke: var(--primary-green);
+    flex-shrink: 0;
 }
 
 .form-group input,
@@ -337,7 +430,7 @@ body {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #000;
+    border-color: var(--primary-green);
 }
 
 /* Summary Content */
@@ -366,12 +459,12 @@ body {
 
 .summary-value {
     font-weight: 600;
-    color: #000;
+    color: var(--primary-black);
 }
 
 .price-display {
-    background: #000;
-    color: #fff;
+    background: var(--primary-black);
+    color: var(--primary-green);
     padding: 1rem;
     border-radius: 8px;
     margin-top: 1rem;
@@ -413,14 +506,15 @@ body {
 .success-icon {
     width: 80px;
     height: 80px;
-    background: #4CAF50;
-    color: #fff;
+    background: var(--primary-green);
+    color: var(--primary-black);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
     margin: 0 auto 1.5rem;
+    font-weight: bold;
 }
 
 .booking-reference {
@@ -429,6 +523,12 @@ body {
     border-radius: 8px;
     margin: 1.5rem 0;
     font-size: 1.1rem;
+}
+
+.pending-notice {
+    color: var(--primary-green);
+    font-weight: 600;
+    margin: 1rem 0;
 }
 
 /* Responsive Design */
@@ -463,6 +563,15 @@ body {
     .services-grid,
     .contact-grid {
         grid-template-columns: 1fr;
+    }
+
+    .form-row:has(.form-group + .form-group) {
+        grid-template-columns: 1fr;
+    }
+
+    .vehicle-badge {
+        flex-direction: column;
+        text-align: center;
     }
 }
 

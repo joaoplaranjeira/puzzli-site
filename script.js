@@ -84,8 +84,10 @@ function handleBookingSubmit(event) {
     const toLocation = document.getElementById('toLocation').value;
     const pickupDate = document.getElementById('pickupDate').value;
     const pickupTime = document.getElementById('pickupTime').value;
-    const serviceType = document.getElementById('serviceType').value;
     const passengers = document.getElementById('passengers').value;
+    
+    // Fixed service type - BYD Atto 2
+    const serviceType = 'standard';
     
     // Calculate distance and price
     const distance = calculateDistance(fromLocation, toLocation);
@@ -109,12 +111,6 @@ function handleBookingSubmit(event) {
 
 // Show booking summary
 function showSummary() {
-    const serviceNames = {
-        'standard': 'Standard',
-        'comfort': 'Comfort',
-        'premium': 'Premium'
-    };
-    
     // Format date
     const dateObj = new Date(bookingData.date);
     const formattedDate = dateObj.toLocaleDateString('pt-PT', { 
@@ -142,8 +138,8 @@ function showSummary() {
             <span class="summary-value">${bookingData.time}</span>
         </div>
         <div class="summary-item">
-            <span class="summary-label">Serviço:</span>
-            <span class="summary-value">${serviceNames[bookingData.serviceType]}</span>
+            <span class="summary-label">Viatura:</span>
+            <span class="summary-value">BYD Atto 2</span>
         </div>
         <div class="summary-item">
             <span class="summary-label">Passageiros:</span>
