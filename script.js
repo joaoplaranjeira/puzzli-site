@@ -166,7 +166,7 @@ function generateOTP() {
 }
 
 // Request OTP
-function requestOTP() {
+async function requestOTP() {
     const emailInput = document.getElementById('userEmail');
     const email = emailInput.value;
     
@@ -176,26 +176,41 @@ function requestOTP() {
     }
     
     userEmail = email;
-    generatedOTP = generateOTP();
     
-    // In a real application, you would send this OTP via email using a backend service
-    // For demonstration, we'll just log it to console
-    console.log('=================================');
-    console.log('OTP Code:', generatedOTP);
-    console.log('Email:', userEmail);
-    console.log('=================================');
-    
-    // Simulate email sending
-    alert(`Código OTP enviado para ${email}!\n\n(Para demonstração, verifique o console do navegador para ver o código)`);
-    
-    // Show OTP modal
-    document.getElementById('otpEmail').textContent = email;
-    document.getElementById('summaryModal').style.display = 'none';
-    document.getElementById('otpModal').style.display = 'block';
+    try {
+        // Call the API to send OTP
+        const response = await fetch('https://otw-puzzli-api-authentication-4e86ebc4ed92.herokuapp.com/api/Otp/send', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Erro ao enviar código OTP');
+        }
+        
+        // Show success message
+        alert(`Código OTP enviado para ${email}!`);
+        
+        // Show OTP modal
+        document.getElementById('otpEmail').textContent = email;
+        document.getElementById('summaryModal').style.display = 'none';
+        document.getElementById('otpModal').style.display = 'block';
+        
+    } catch (error) {
+        console.error('Error sending OTP:', error);
+        alert('Erro ao enviar código. Por favor, tente novamente.');
+    }
 }
 
 // Verify OTP
-function verifyOTP() {
+async function verifyOTP() {
     const enteredOTP = document.getElementById('otpCode').value;
     
     if (!enteredOTP || enteredOTP.length !== 6) {
@@ -203,11 +218,32 @@ function verifyOTP() {
         return;
     }
     
-    if (enteredOTP === generatedOTP) {
-        // OTP is correct - confirm booking
-        confirmBooking();
-    } else {
-        alert('Código OTP inválido. Por favor, tente novamente.');
+    try {
+        // Call the API to validate OTP
+        const response = await fetch('https://otw-puzzli-api-authentication-4e86ebc4ed92.herokuapp.com/api/Otp/validate', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                email: userEmail,
+                code: enteredOTP
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // OTP is correct - confirm booking
+            confirmBooking();
+        } else {
+            document.getElementById('otpCode').value = '';
+        }
+        
+    } catch (error) {
+        console.error('Error validating OTP:', error);
         document.getElementById('otpCode').value = '';
     }
 }
