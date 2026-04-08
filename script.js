@@ -3,6 +3,134 @@ let bookingData = {};
 let generatedOTP = null;
 let userEmail = null;
 
+// ── Autocomplete with Nominatim ──
+(function () {
+    let debounceTimer = null;
+
+    function initAutocomplete(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+
+        // Wrap input in a relative container for dropdown positioning
+        const wrapper = document.createElement('div');
+        wrapper.className = 'autocomplete-wrapper';
+        input.parentNode.insertBefore(wrapper, input);
+        wrapper.appendChild(input);
+
+        const list = document.createElement('ul');
+        list.className = 'autocomplete-list';
+        list.style.display = 'none';
+        wrapper.appendChild(list);
+
+        let activeIndex = -1;
+
+        input.setAttribute('autocomplete', 'off');
+
+        input.addEventListener('input', function () {
+            const query = this.value.trim();
+            clearTimeout(debounceTimer);
+            if (query.length < 3) {
+                hideList();
+                return;
+            }
+            debounceTimer = setTimeout(function () {
+                searchNominatim(query, list, input);
+            }, 350);
+        });
+
+        input.addEventListener('keydown', function (e) {
+            const items = list.querySelectorAll('li');
+            if (!items.length || list.style.display === 'none') return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                activeIndex = Math.min(activeIndex + 1, items.length - 1);
+                updateActive(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                activeIndex = Math.max(activeIndex - 1, 0);
+                updateActive(items);
+            } else if (e.key === 'Enter' && activeIndex >= 0) {
+                e.preventDefault();
+                items[activeIndex].click();
+            } else if (e.key === 'Escape') {
+                hideList();
+            }
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!wrapper.contains(e.target)) {
+                hideList();
+            }
+        });
+
+        function hideList() {
+            list.style.display = 'none';
+            activeIndex = -1;
+        }
+
+        function updateActive(items) {
+            items.forEach(function (item, i) {
+                item.classList.toggle('active', i === activeIndex);
+            });
+            if (items[activeIndex]) {
+                items[activeIndex].scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        function searchNominatim(query, listEl, inputEl) {
+            var url = 'https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=5'
+                + '&countrycodes=pt&q=' + encodeURIComponent(query);
+
+            fetch(url, {
+                headers: { 'Accept-Language': 'pt' }
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (results) {
+                listEl.innerHTML = '';
+                activeIndex = -1;
+
+                if (!results.length) {
+                    listEl.style.display = 'none';
+                    return;
+                }
+
+                results.forEach(function (place) {
+                    var parts = place.display_name.split(',');
+                    var name = parts[0].trim();
+                    var detail = parts.slice(1, 4).join(',').trim();
+
+                    var li = document.createElement('li');
+                    li.innerHTML = '<span class="place-name">' + escapeHtml(name) + '</span>'
+                        + '<span class="place-detail">' + escapeHtml(detail) + '</span>';
+                    li.addEventListener('click', function () {
+                        inputEl.value = place.display_name;
+                        listEl.style.display = 'none';
+                    });
+                    listEl.appendChild(li);
+                });
+
+                listEl.style.display = 'block';
+            })
+            .catch(function () {
+                listEl.style.display = 'none';
+            });
+        }
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+    }
+
+    // Initialise after DOM is ready
+    document.addEventListener('DOMContentLoaded', function () {
+        initAutocomplete('fromLocation');
+        initAutocomplete('toLocation');
+    });
+})();
+
 // Mobile menu toggle
 function toggleMobileMenu() {
     const navLinks = document.querySelector('.nav-links');
