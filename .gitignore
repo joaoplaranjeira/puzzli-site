@@ -54,3 +54,7 @@ pids
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Build dependencies and output
+node_modules/
+dist/
